@@ -14,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -90,15 +91,22 @@ public class GoogleSignInActivity extends MainActivity {
                             // Sign in success, update UI with the signed-in user's information
                             progressDialog.dismiss();
 
+
                             userID = mUser.getUid();
                             DocumentReference documentReference=mStore.collection("users").document(userID);
                             mStore.collection("users");
                             Map<String, Object> user= new HashMap<>();
-                            user.put("email",mUser.getEmail());
+                            String email=mUser.getProviderData().get(1).getEmail();
+                            user.put("email",email);
 
-                            Toast.makeText(GoogleSignInActivity.this,"Sign In with Google Successful",Toast.LENGTH_SHORT).show();
-                            FirebaseUser userr = mAuth.getCurrentUser();
-                            updateUI(userr);
+                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(GoogleSignInActivity.this,"Sign In with Google Successful",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            updateUI(mUser);
                         } else {
                             // If sign in fails, display a message to the user.
                             progressDialog.dismiss();
@@ -110,7 +118,7 @@ public class GoogleSignInActivity extends MainActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-        Intent intent=new Intent(GoogleSignInActivity.this,HomeActivity.class);
+        Intent intent=new Intent(GoogleSignInActivity.this,AddImageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

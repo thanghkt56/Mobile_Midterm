@@ -3,6 +3,7 @@ package com.example.loginauthfirebase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -14,23 +15,33 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FacebookAuthActivity extends MainActivity {
-
+    String userID;
+    FirebaseAuth mAuth;
+    FirebaseFirestore mStore;
     CallbackManager callbackManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         callbackManager = CallbackManager.Factory.create();
-
+        mAuth=FirebaseAuth.getInstance();
+        mUser=mAuth.getCurrentUser();
+        mStore=FirebaseFirestore.getInstance();
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -69,9 +80,21 @@ public class FacebookAuthActivity extends MainActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
 
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(FacebookAuthActivity.this, "Sign In with Facebook successful", Toast.LENGTH_SHORT).show();
-                            updateUI(user);
+                            userID = mUser.getUid();
+                            DocumentReference documentReference=mStore.collection("users").document(userID);
+                            mStore.collection("users");
+                            Map<String, Object> user= new HashMap<>();
+
+                            String email=mUser.getProviderData().get(1).getEmail();
+                            user.put("email",email);
+
+                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(FacebookAuthActivity.this,"Sign In with Facebook successful",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            updateUI(mUser);
                         } else {
                             // If sign in fails, display a message to the user.
 
@@ -82,7 +105,7 @@ public class FacebookAuthActivity extends MainActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-        Intent intent= new Intent(FacebookAuthActivity.this,HomeActivity.class);
+        Intent intent= new Intent(FacebookAuthActivity.this,AddImageActivity.class);
         startActivity(intent);
     }
 }
