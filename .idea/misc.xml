@@ -4,10 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/drawable/input_bg.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_add_image.xml" value="0.25" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_facebook_auth.xml" value="0.19021739130434784" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_google_sign_in.xml" value="0.20153985507246377" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_home.xml" value="0.20153985507246377" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_register.xml" value="0.2" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_register.xml" value="0.25" />
       </map>
     </option>
   </component>

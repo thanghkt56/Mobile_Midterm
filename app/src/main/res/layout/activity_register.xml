@@ -30,7 +30,7 @@
                 android:fontFamily="@font/open_sans"
                 android:text="Register"
                 android:textColor="@color/white"
-                android:textSize="44sp"
+                android:textSize="38sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"

@@ -14,10 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -26,9 +33,10 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnRegister;
     String emailRegex= "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     ProgressDialog progressDialog;
-
+    FirebaseFirestore mStore;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +46,16 @@ public class RegisterActivity extends AppCompatActivity {
         //full man hinh
 
         alreadyHaveAccount=findViewById(R.id.alreadyHaveAccount);
-
         inputEmail=findViewById(R.id.inputEmail);
         inputPassword=findViewById(R.id.inputPassword);
         inputConfirmPassword=findViewById(R.id.inputConfirmPassword);
         btnRegister=findViewById(R.id.btnRegister);
         progressDialog=new ProgressDialog(this);
+
         mAuth=FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
+        mStore=FirebaseFirestore.getInstance();
+
 
         alreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,8 +103,29 @@ public class RegisterActivity extends AppCompatActivity {
                     if(task.isSuccessful())
                     {
                         progressDialog.dismiss();
+                        userID = mUser.getUid();
+                        DocumentReference documentReference=mStore.collection("users").document(userID);
+                        //mStore.collection("users");
+
+                        Map<String, Object> user= new HashMap<>();
+                        user.put("email",email);
+
+                        /*
+                        Map<String, Object> favIMG= new HashMap<>();
+                        favIMG.put("URL","firebase.img/abc");
+                        favIMG.put("ISO","ISO125");
+                        favIMG.put("f",2.6);
+                        favIMG.put("caideogidaynua","1/100");
+                        CollectionReference favIMGRef=mStore.collection("users").document(userID).collection("favIMG");
+                        favIMGRef.add(favIMG);*/
+
+                        documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(RegisterActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         sendUserToNextActivity();
-                        Toast.makeText(RegisterActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
                     } else {
                         progressDialog.dismiss();
                         Toast.makeText(RegisterActivity.this,""+task.getException(),Toast.LENGTH_LONG).show();

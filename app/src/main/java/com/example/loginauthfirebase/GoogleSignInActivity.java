@@ -20,6 +20,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GoogleSignInActivity extends MainActivity {
 
@@ -28,6 +33,9 @@ public class GoogleSignInActivity extends MainActivity {
     FirebaseAuth mAuth;
     FirebaseUser mUser;
     ProgressDialog progressDialog;
+    FirebaseFirestore mStore;
+    String userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +52,8 @@ public class GoogleSignInActivity extends MainActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mAuth=FirebaseAuth.getInstance();
         mUser= mAuth.getCurrentUser();
+        mStore=FirebaseFirestore.getInstance();
+
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -79,9 +89,16 @@ public class GoogleSignInActivity extends MainActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             progressDialog.dismiss();
+
+                            userID = mUser.getUid();
+                            DocumentReference documentReference=mStore.collection("users").document(userID);
+                            mStore.collection("users");
+                            Map<String, Object> user= new HashMap<>();
+                            user.put("email",mUser.getEmail());
+
                             Toast.makeText(GoogleSignInActivity.this,"Sign In with Google Successful",Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            FirebaseUser userr = mAuth.getCurrentUser();
+                            updateUI(userr);
                         } else {
                             // If sign in fails, display a message to the user.
                             progressDialog.dismiss();
