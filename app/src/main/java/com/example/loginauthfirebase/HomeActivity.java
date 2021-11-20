@@ -36,7 +36,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     void prepareProfileFragment() {
         profileFragment = new ProfileFragment();
-        loadFragment(profileFragment);
     }
 
     private void prepareNavigationBar() {

@@ -2,6 +2,10 @@
     <string name="app_name">Aesthetic</string>
     <string name="facebook_app_id">878874559666564</string>
     <string name="fb_login_protocol_scheme">fb878874559666564</string>
-
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_home_base">HomeBase</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>
