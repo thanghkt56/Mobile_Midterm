@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/OneDrive - VNU-HCMUS/Tus/University/Junior/Mobile/Mobile_Midterm/app/src/main/res/drawable/background_drawable.xml" value="0.18796296296296297" />
         <entry key="..\:/OneDrive - VNU-HCMUS/Tus/University/Junior/Mobile/Mobile_Midterm/app/src/main/res/drawable/button_bg.xml" value="0.2755208333333333" />
         <entry key="..\:/OneDrive - VNU-HCMUS/Tus/University/Junior/Mobile/Mobile_Midterm/app/src/main/res/drawable/edit_text_bg.xml" value="0.2755208333333333" />
@@ -32,6 +33,17 @@
         <entry key="..\:/OneDrive - VNU-HCMUS/Tus/University/Junior/Mobile/Mobile_Midterm/app/src/main/res/menu/profile_bottom_menu.xml" value="0.13385416666666666" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/drawable/input_bg.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_add_image.xml" value="0.25" />
+=======
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/drawable/button_bg.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/drawable/edit_text_bg.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/drawable/ic_baseline_add_a_photo_24.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/drawable/ic_launcher_A_background.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/drawable/ic_launcher_a_background.xml" value="0.23333333333333334" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/drawable/input_bg.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_add_image.xml" value="0.5" />
+>>>>>>> 95fdc7d4a3f56ad96074282a450802ddd1e64abe
         <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_facebook_auth.xml" value="0.19021739130434784" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_google_sign_in.xml" value="0.20153985507246377" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/LoginAuthfirebase/app/src/main/res/layout/activity_home.xml" value="0.20153985507246377" />
