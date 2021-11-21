@@ -2,20 +2,17 @@ package com.example.loginauthfirebase;
 
 import static android.content.ContentValues.TAG;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -30,69 +27,66 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-
-public class ProfileFragment extends Fragment {
+public class MarkerActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    private ArrayList<Item> savedItems;
-    private ItemsAdapter savedItemsAdapter;
+    ProgressBar progressBar;
+    private ArrayList<Item> markerItems;
+    private ItemsAdapter markerItemsAdapter;
+    private ProgressDialog progressDialog;
     FirebaseFirestore mStore;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-    ProgressDialog progressDialog;
-
-    public ProfileFragment() {
-    }
-
-    public ProfileFragment(FirebaseFirestore store, FirebaseAuth auth, FirebaseUser user) {
-        mStore = store;
-        mAuth = auth;
-        mUser = user;
-    }
+    String markerID;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_marker);
+        Initialize();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.savedItems);
-        progressDialog = new ProgressDialog(this.getContext());
-        progressDialog.setMessage("Loading profile ...");
+    private void Initialize() {
+        prepareProgressDialog();
+        prepareAccount();
+        prepareID();
+        prepareView();
+    }
+
+    private void prepareProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading map ...");
         progressDialog.setTitle("Load");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
+    }
 
+    private void prepareID() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            markerID = extras.getString("markerID");
+        }
+    }
+
+    private void prepareView() {
+        recyclerView = (RecyclerView) findViewById(R.id.markerItems);
         prepareRecyclerView();
-        return view;
     }
 
     private void prepareRecyclerView() {
-        String userID = mUser.getUid();
-        CollectionReference savedIMGRef=mStore
-                .collection("users")
-                .document(userID)
-                .collection("favIMG");
-        savedItems = new ArrayList<Item>();
-        getSavedList(savedIMGRef, this.getContext());
-        savedItemsAdapter = new ItemsAdapter(savedItems, this.getContext());
+        CollectionReference itemRef=mStore
+                .collection("markers")
+                .document(markerID)
+                .collection("IMG");
+        markerItems = new ArrayList<Item>();
+        getMarkerItemList(itemRef, this);
+        markerItemsAdapter = new ItemsAdapter(markerItems, this);
 
-        recyclerView.setAdapter(savedItemsAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerView.setAdapter(markerItemsAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void getSavedList(CollectionReference savedIMGRef, Context context) {
-        Handler mainHandler = new Handler(this.getContext().getMainLooper());
-//        Runnable removePB = new Runnable() {
-//            @Override
-//            public void run() {
-//                progress(View.GONE)
-//            }
-//        };
-        savedIMGRef.get()
+    private void getMarkerItemList(CollectionReference itemRef, Context context) {
+        itemRef.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot documentSnapshots) {
@@ -104,9 +98,9 @@ public class ProfileFragment extends Fragment {
                                 if (documentSnapshot.exists()) {
                                     Log.d(TAG, "onSuccess: DOCUMENT" + documentSnapshot.getId() + " ; " + documentSnapshot.getData());
                                     Log.d(TAG, String.valueOf(documentSnapshot.getData()));
-                                    Item item = savedItemFromSnapshot(documentSnapshot);
-                                    savedItems.add(item);
-                                    savedItemsAdapter.notifyDataSetChanged();
+                                    Item item = MarkerItemFromSnapshot(documentSnapshot);
+                                    markerItems.add(item);
+                                    markerItemsAdapter.notifyDataSetChanged();
                                 }
                             }
                             progressDialog.dismiss();
@@ -121,13 +115,19 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    Item savedItemFromSnapshot(DocumentSnapshot documentSnapshot) {
-        Item item = new SavedItem(String.valueOf(documentSnapshot.get("date")),
+    Item MarkerItemFromSnapshot(DocumentSnapshot documentSnapshot) {
+        Item item = new MarkerItem(String.valueOf(documentSnapshot.get("date")),
                 String.valueOf(documentSnapshot.get("f")),
                 String.valueOf(documentSnapshot.get("imageUrl")),
                 String.valueOf(documentSnapshot.get("iso")),
                 String.valueOf(documentSnapshot.get("mm")),
                 String.valueOf(documentSnapshot.get("speed")));
         return item;
+    }
+
+    private void prepareAccount() {
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        mStore = FirebaseFirestore.getInstance();
     }
 }
