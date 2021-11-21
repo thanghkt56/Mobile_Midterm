@@ -1,31 +1,53 @@
 package com.example.loginauthfirebase;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.mbms.MbmsErrors;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MapsFragment extends Fragment {
+public class MapsFragment extends Fragment implements GoogleMap.OnMarkerClickListener {
     private GoogleMap mMap;
     private SearchView searchView;
-
+    private FirebaseFirestore mStore;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+    private ArrayList<MyMarker> myMarkers;
+    private ProgressDialog progressDialog;
+    private View mView;
+    
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -40,8 +62,22 @@ public class MapsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mMap = googleMap;
+            LatLng ChoDaLat = new LatLng(11.942636, 108.436915);
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ChoDaLat, 18));
+            Initialize(mView);
         }
     };
+
+    private void setListener() {
+        Log.d(TAG, "Clickeddddddddddddd");
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    public MapsFragment(FirebaseFirestore store, FirebaseAuth auth, FirebaseUser user) {
+        mStore = store;
+        mAuth = auth;
+        mUser = user;
+    }
 
     @Nullable
     @Override
@@ -53,11 +89,59 @@ public class MapsFragment extends Fragment {
     }
 
     private void Initialize(View view) {
+        setListener();
         prepareSearchBox(view);
+        prepareMarkers(view);
+    }
+
+    private void prepareMarkers(View view) {
+        myMarkers = new ArrayList<MyMarker>();
+        CollectionReference markersRef = mStore.collection("markers");
+        Log.d(TAG, ":(((((((((((((((((((((((((((91");
+        AddAllMarkers(view);
+    }
+
+    private void DisplayAllMarkers() {
+        for(MyMarker myMarker: myMarkers) {
+            LatLng pos = new LatLng(Double.valueOf(myMarker.X), Double.valueOf(myMarker.Y));
+            MarkerOptions option = new MarkerOptions().position(pos)
+                    .title(myMarker.name);
+            Marker addedMarker = mMap.addMarker(option);
+            addedMarker.setTag(myMarker.ID);
+        }
+        progressDialog.dismiss();
+    }
+
+    private void AddAllMarkers(View view) {
+        mStore.collection("markers").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        if (documentSnapshots.isEmpty()) {
+                            Log.d(TAG, "onSuccess: LIST EMPTY");
+                            return;
+                        } else {
+                            for (DocumentSnapshot documentSnapshot : documentSnapshots) {
+                                if (documentSnapshot.exists()) {
+                                    Log.d(TAG, "onSuccess: DOCUMENT" + documentSnapshot.getId() + " ; " + documentSnapshot.getData());
+                                    MyMarker marker = new MyMarker(documentSnapshot);
+                                    myMarkers.add(marker);
+                                }
+                            }
+                            DisplayAllMarkers();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(view.getContext(), "Error getting data!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void prepareSearchBox(View view) {
-        searchView = (SearchView)view.findViewById(R.id.idSearchView);
+        searchView = (SearchView) view.findViewById(R.id.idSearchView);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -100,6 +184,21 @@ public class MapsFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
-        Initialize(view);
+        progressDialog = new ProgressDialog(this.getContext());
+        progressDialog.setMessage("Loading map ...");
+        progressDialog.setTitle("Load");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        mView = view;
+    }
+
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        String markerID = (String) marker.getTag();
+        Intent intent = new Intent(this.getContext(), MarkerActivity.class);
+        intent.putExtra("markerID", markerID);
+        startActivity(intent);
+        return false;
     }
 }
