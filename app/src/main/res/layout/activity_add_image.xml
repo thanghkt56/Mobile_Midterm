@@ -9,13 +9,8 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
-<<<<<<< HEAD
-        android:layout_height="200dp"
-        android:layout_marginTop="48dp"
-=======
         android:layout_height="350dp"
         android:layout_marginTop="50dp"
->>>>>>> 95fdc7d4a3f56ad96074282a450802ddd1e64abe
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,11 +23,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="24dp"
         android:ems="10"
-<<<<<<< HEAD
-        android:hint="ISO"
-=======
         android:hint="  ISO"
->>>>>>> 95fdc7d4a3f56ad96074282a450802ddd1e64abe
         android:background="@drawable/edit_text_bg"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/inputF"
@@ -52,7 +43,6 @@
         android:hint="  f"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/edit_text_bg"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/inputISO"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -64,12 +54,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/edit_text_bg"
         android:ems="10"
-<<<<<<< HEAD
         android:hint="mm"
-        android:background="@drawable/edit_text_bg"
-=======
-        android:hint="  mm"
->>>>>>> 95fdc7d4a3f56ad96074282a450802ddd1e64abe
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/inputSpeed"
         app:layout_constraintHorizontal_bias="0.5"
@@ -85,7 +70,6 @@
         android:background="@drawable/edit_text_bg"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/inputMM"
-        android:background="@drawable/edit_text_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/inputMM"
@@ -100,7 +84,6 @@
         android:ems="10"
         android:hint="  Date"
         android:inputType="textPersonName"
-        android:background="@drawable/edit_text_bg"
         app:layout_constraintEnd_toEndOf="@+id/inputSpeed"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="@+id/inputMM"

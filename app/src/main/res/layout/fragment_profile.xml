@@ -22,7 +22,6 @@
             android:layout_margin="4dp"
             android:drawablePadding="3dp"
             android:textColor="@color/black"
-            android:layout_gravity="start"
             android:textAlignment="center"
             android:layout_weight="4"
             android:textStyle="bold"
