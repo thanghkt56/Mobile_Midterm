@@ -19,66 +19,73 @@
 
     <EditText
         android:id="@+id/inputISO"
-        android:layout_width="0dp"
+        android:layout_width="144dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="24dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="ISO"
-        app:layout_constraintBottom_toTopOf="@+id/inputF"
-        app:layout_constraintEnd_toEndOf="@+id/inputMM"
-        app:layout_constraintStart_toStartOf="@+id/inputMM"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/inputF"
+        app:layout_constraintEnd_toStartOf="@+id/inputF"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/inputF"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/inputF"
-        android:layout_width="0dp"
+        android:layout_width="144dp"
         android:layout_height="50dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="f"
-        app:layout_constraintBottom_toTopOf="@+id/inputMM"
-        app:layout_constraintEnd_toEndOf="@+id/inputMM"
-        app:layout_constraintStart_toStartOf="@+id/inputMM"
-        app:layout_constraintTop_toBottomOf="@+id/inputISO" />
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/inputISO"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
         android:id="@+id/inputMM"
-        android:layout_width="0dp"
+        android:layout_width="144dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="mm"
-        app:layout_constraintBottom_toTopOf="@+id/inputSpeed"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputF" />
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/inputSpeed"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputISO" />
 
     <EditText
         android:id="@+id/inputSpeed"
-        android:layout_width="0dp"
+        android:layout_width="144dp"
         android:layout_height="50dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Speed"
-        app:layout_constraintBottom_toTopOf="@+id/inputDate"
-        app:layout_constraintEnd_toEndOf="@+id/inputMM"
-        app:layout_constraintStart_toStartOf="@+id/inputMM"
-        app:layout_constraintTop_toBottomOf="@+id/inputMM" />
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/inputMM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/inputMM"
+        app:layout_constraintTop_toTopOf="@+id/inputMM" />
 
     <EditText
         android:id="@+id/inputDate"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Date"
-        app:layout_constraintBottom_toTopOf="@+id/uploadBtn"
-        app:layout_constraintEnd_toEndOf="@+id/inputMM"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/inputSpeed"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/inputMM"
-        app:layout_constraintTop_toBottomOf="@+id/inputSpeed" />
+        app:layout_constraintTop_toBottomOf="@+id/inputMM" />
 
     <Button
-        android:id="@+id/uploadBtn"
+        android:id="@+id/btnUpload"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -89,5 +96,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnShareFB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share to Facebook"
+        app:layout_constraintBottom_toTopOf="@+id/btnUpload"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputDate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
