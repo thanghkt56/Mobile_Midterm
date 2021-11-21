@@ -50,8 +50,8 @@ public class AddImageActivity extends AppCompatActivity {
     String userID;
 
     //Khai bao de share
-    CallbackManager callbackManager;
-    ShareDialog shareDialog;
+    //CallbackManager callbackManager;
+    //ShareDialog shareDialog;
 
 
 
@@ -77,6 +77,7 @@ public class AddImageActivity extends AppCompatActivity {
 
 
         //Share link
+        /*
         callbackManager = CallbackManager.Factory.create();
         shareBtn=(Button) findViewById(R.id.btnShareFB);
         shareDialog =new ShareDialog(this);
@@ -93,7 +94,7 @@ public class AddImageActivity extends AppCompatActivity {
                     shareDialog.show(shareLinkContent);
                 }
             }
-        });// Het share Link
+        });*/// Het share Link
 
 
         ActivityResultLauncher<Intent> imageResultLauncher = registerForActivityResult(
