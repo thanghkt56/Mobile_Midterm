@@ -35,13 +35,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
     class SavedItemViewHolder extends ItemViewHolder {
         public ImageView imageView;
-        public TextView textView;
+        public TextView infoText;
         public Bitmap bitmap;
 
         public SavedItemViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.image);
-            textView = (TextView) itemView.findViewById(R.id.info);
+            infoText = (TextView) itemView.findViewById(R.id.infoText);
         }
 
         public void bind(Item item, Context context) throws IOException {
@@ -57,7 +57,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
                          @Override
                             public void run() {
                                 imageView.setImageBitmap(bitmap);
-                                textView.setText(item.mDate);
+                                infoText.setText(item.mDate + "        f" + item.mF + "  iso" + item.mIso + "  " + item.mSpeed + "s");
                             }
                          });
                     } catch (Exception e) {
@@ -72,13 +72,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     class MarkerItemViewHolder extends ItemViewHolder {
         public Button shareButton, likeButton;
         public ImageView imageView;
-        public TextView textView;
+        public TextView infoText;
         public Bitmap bitmap;
 
         public MarkerItemViewHolder(@NonNull View itemView) {
             super(itemView);
+            infoText = (TextView) itemView.findViewById(R.id.infoText);
             imageView = (ImageView) itemView.findViewById(R.id.image);
-            textView = (TextView) itemView.findViewById(R.id.info);
             likeButton = (Button) itemView.findViewById(R.id.likeButton);
             shareButton = (Button) itemView.findViewById(R.id.shareButton);
         }
@@ -96,7 +96,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
                             @Override
                             public void run() {
                                 imageView.setImageBitmap(bitmap);
-                                textView.setText(item.mDate);
+                                infoText.setText(item.mDate + "        f" + item.mF + "  iso" + item.mIso + "  " + item.mSpeed + "s");
                             }
                         });
                     } catch (Exception e) {

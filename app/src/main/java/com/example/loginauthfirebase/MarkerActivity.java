@@ -92,6 +92,7 @@ public class MarkerActivity extends AppCompatActivity {
                     public void onSuccess(QuerySnapshot documentSnapshots) {
                         if (documentSnapshots.isEmpty()) {
                             Log.d(TAG, "onSuccess: LIST EMPTY");
+                            progressDialog.dismiss();
                             return;
                         } else {
                             for (DocumentSnapshot documentSnapshot : documentSnapshots) {

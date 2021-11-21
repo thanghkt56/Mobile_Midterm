@@ -119,6 +119,7 @@ public class MapsFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     public void onSuccess(QuerySnapshot documentSnapshots) {
                         if (documentSnapshots.isEmpty()) {
                             Log.d(TAG, "onSuccess: LIST EMPTY");
+                            progressDialog.dismiss();
                             return;
                         } else {
                             for (DocumentSnapshot documentSnapshot : documentSnapshots) {
@@ -196,6 +197,9 @@ public class MapsFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         String markerID = (String) marker.getTag();
+        if (marker.equals("")) {
+            return false;
+        }
         Intent intent = new Intent(this.getContext(), MarkerActivity.class);
         intent.putExtra("markerID", markerID);
         startActivity(intent);

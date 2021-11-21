@@ -3,15 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".ProfileFragment"
-    android:background="@color/quantum_grey">
+    tools:context=".ProfileFragment">
 
     <LinearLayout
         android:id="@+id/profileInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top"
         android:orientation="horizontal">
 
         <TextView
@@ -19,21 +18,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
-            android:layout_weight="3" />
+            android:padding="5dp"
+            android:layout_margin="4dp"
+            android:drawablePadding="3dp"
+            android:textColor="@color/black"
+            android:layout_gravity="start"
+            android:textAlignment="center"
+            android:layout_weight="4"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
 
         <Button
-            android:id="@+id/logoutButton"
+            android:id="@+id/idSignOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log out"
-            android:layout_weight="1" />
-
+            android:layout_margin="4dp"
+            android:drawablePadding="3dp"
+            android:padding="5dp"
+            android:drawableLeft="@drawable/ic_log_out"
+            android:text="Sign out"
+            android:textColor="@color/black"
+            android:background="@drawable/background_drawable"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/savedItems"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/profileInfo"/>
+        android:layout_below="@id/profileInfo" />
 
 </RelativeLayout>
