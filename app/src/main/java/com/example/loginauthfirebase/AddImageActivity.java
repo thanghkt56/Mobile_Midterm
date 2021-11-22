@@ -48,6 +48,7 @@ public class AddImageActivity extends AppCompatActivity {
     FirebaseStorage mImageStore;
     Uri imageUri;
     String userID;
+    String markerID;
 
     //Khai bao de share
     //CallbackManager callbackManager;
@@ -74,7 +75,7 @@ public class AddImageActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
         mStore = FirebaseFirestore.getInstance();
         mImageStore = FirebaseStorage.getInstance();
-
+        prepareID();
 
         //Share link
         /*
@@ -107,7 +108,6 @@ public class AddImageActivity extends AppCompatActivity {
                             Intent data = result.getData();
                             imageUri = data.getData();
                             imageView.setImageURI(imageUri);
-
                         }
                     }
                 });
@@ -126,6 +126,13 @@ public class AddImageActivity extends AppCompatActivity {
                 uploadToFirebase(imageUri);
             }
         });
+    }
+
+    private void prepareID() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            markerID = extras.getString("markerID");
+        }
     }
 
     private void uploadToFirebase(Uri imageUri) {
@@ -155,7 +162,7 @@ public class AddImageActivity extends AppCompatActivity {
                         public void onSuccess(Uri uri) {
                             progressDialog.dismiss();
                             Model model = new Model(uri.toString(), ISO, f, MM, Speed, Date);
-                            String markerID = "TestMarkerID";
+
                             //DocumentReference markerRef = mStore.collection("markers").document(markerID);
                             CollectionReference IMGRef = mStore.collection("markers").document(markerID).collection("IMG");
 

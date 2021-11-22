@@ -140,6 +140,7 @@ public class MarkerActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         Intent intent=new Intent(this, AddImageActivity.class);
+        intent.putExtra("markerID", markerID);
         startActivity(intent);
     }
 }
