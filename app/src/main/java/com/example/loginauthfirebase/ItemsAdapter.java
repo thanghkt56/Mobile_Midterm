@@ -1,13 +1,11 @@
 package com.example.loginauthfirebase;
 
-import static android.content.ContentValues.TAG;
-
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,7 +61,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
                          @Override
                             public void run() {
                                 imageView.setImageBitmap(bitmap);
-                                infoText.setText(item.mDate + "        f" + item.mF + "  iso" + item.mIso + "  " + item.mSpeed + "s");
+                                infoText.setText(item.toString());
                             }
                          });
                     } catch (Exception e) {
@@ -83,7 +87,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
             shareButton = (Button) itemView.findViewById(R.id.shareButton);
         }
 
-        public void bind(Item item, Context context) throws IOException {
+        public void bind(Item item, Context context, FirebaseAuth mAuth, FirebaseUser mUser, FirebaseFirestore mStore) throws IOException {
             Handler mainHandler = new Handler(context.getMainLooper());
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -96,7 +100,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
                             @Override
                             public void run() {
                                 imageView.setImageBitmap(bitmap);
-                                infoText.setText(item.mDate + "        f" + item.mF + "  iso" + item.mIso + "  " + item.mSpeed + "s");
+                                infoText.setText(item.toString());
                             }
                         });
                     } catch (Exception e) {
@@ -105,15 +109,44 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
                 }
             });
             thread.start();
+            likeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Model model = new Model(item.mImageUrl, item.mIso, item.mF, item.mMm, item.mSpeed, item.mDate); //lay 6 cai thong tin tuong ung nhet vao, class Model tren git
+                    String userID = mUser.getUid();
+                    CollectionReference favIMGRef=mStore.collection("users").document(userID).collection("favIMG");
+                    favIMGRef.add(model);
+                }
+            });
+            ShareDialog shareDialog = new ShareDialog((Activity) context);
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
+                            .setContentUrl(Uri.parse("https://firebasestorage.googleapis.com/v0/b/login-auth-firebase-40e1b.appspot.com/o/1637418199115.jpg?alt=media&token=a63170b7-7579-43bb-a39b-cb9d31188ad2"))
+                            .setShareHashtag(new ShareHashtag.Builder()
+                                    .setHashtag("#Aesthetic").build())
+                            .build();//Cai link dang set cung, thay bang URL hinh` nao do vao
+                    if (ShareDialog.canShow(ShareLinkContent.class)) {
+                        shareDialog.show(shareLinkContent);
+                    }
+                }
+            });
         }
     }
 
     private List<Item> mItems;
     private Context context;
+    private FirebaseFirestore mStore;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
 
-    public ItemsAdapter(List<Item> items, Context context) {
+    public ItemsAdapter(List<Item> items, Context context, FirebaseUser user, FirebaseAuth auth, FirebaseFirestore store) {
         mItems = items;
         this.context = context;
+        mUser = user;
+        mAuth = auth;
+        mStore = store;
     }
 
     @Override
@@ -156,7 +189,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         }
         else if (holder instanceof MarkerItemViewHolder) {
             try {
-                ((MarkerItemViewHolder) holder).bind(item, context);
+                ((MarkerItemViewHolder) holder).bind(item, context, mAuth, mUser, mStore);
             } catch (IOException e) {
                 e.printStackTrace();
             }

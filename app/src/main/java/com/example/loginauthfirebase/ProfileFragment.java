@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -110,7 +109,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 .collection("favIMG");
         savedItems = new ArrayList<Item>();
         getSavedList(savedIMGRef, this.getContext());
-        savedItemsAdapter = new ItemsAdapter(savedItems, this.getContext());
+        savedItemsAdapter = new ItemsAdapter(savedItems, this.getContext(), mUser, mAuth, mStore);
 
         recyclerView.setAdapter(savedItemsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));

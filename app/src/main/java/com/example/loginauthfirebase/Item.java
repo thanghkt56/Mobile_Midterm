@@ -16,4 +16,8 @@ public class Item {
         mImageUrl = imageUrl;
         mDate = date;
     }
+
+    public String toString() {
+        return mDate + "            f" + mF + "  iso" + mIso + "  " + mSpeed + "s  " + mMm + "mm";
+    }
 }

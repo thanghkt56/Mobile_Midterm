@@ -1,6 +1,9 @@
 package com.example.loginauthfirebase;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,20 +12,28 @@ import androidx.fragment.app.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Point;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -47,7 +58,7 @@ public class MapsFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private ArrayList<MyMarker> myMarkers;
     private ProgressDialog progressDialog;
     private View mView;
-    
+
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -69,7 +80,6 @@ public class MapsFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     };
 
     private void setListener() {
-        Log.d(TAG, "Clickeddddddddddddd");
         mMap.setOnMarkerClickListener(this);
     }
 
@@ -107,6 +117,7 @@ public class MapsFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             MarkerOptions option = new MarkerOptions().position(pos)
                     .title(myMarker.name);
             Marker addedMarker = mMap.addMarker(option);
+            addedMarker.showInfoWindow();
             addedMarker.setTag(myMarker.ID);
         }
         progressDialog.dismiss();

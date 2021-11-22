@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -27,12 +29,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class MarkerActivity extends AppCompatActivity {
+public class MarkerActivity extends AppCompatActivity implements View.OnClickListener {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     private ArrayList<Item> markerItems;
     private ItemsAdapter markerItemsAdapter;
     private ProgressDialog progressDialog;
+    private FloatingActionButton floatingActionButton;
     FirebaseFirestore mStore;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
@@ -68,6 +71,8 @@ public class MarkerActivity extends AppCompatActivity {
     }
 
     private void prepareView() {
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.addButton);
+        floatingActionButton.setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.markerItems);
         prepareRecyclerView();
     }
@@ -79,7 +84,7 @@ public class MarkerActivity extends AppCompatActivity {
                 .collection("IMG");
         markerItems = new ArrayList<Item>();
         getMarkerItemList(itemRef, this);
-        markerItemsAdapter = new ItemsAdapter(markerItems, this);
+        markerItemsAdapter = new ItemsAdapter(markerItems, this, mUser, mAuth, mStore);
 
         recyclerView.setAdapter(markerItemsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -130,5 +135,11 @@ public class MarkerActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         mStore = FirebaseFirestore.getInstance();
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent=new Intent(this, AddImageActivity.class);
+        startActivity(intent);
     }
 }
