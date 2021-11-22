@@ -11,35 +11,37 @@
         android:id="@+id/profileInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/emailText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email"
-            android:padding="5dp"
+            android:layout_gravity="center"
             android:layout_margin="4dp"
-            android:drawablePadding="3dp"
-            android:textColor="@color/black"
-            android:textAlignment="center"
             android:layout_weight="4"
-            android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:drawablePadding="3dp"
+            android:padding="5dp"
+            android:text="Email"
+            android:textAlignment="center"
+            android:textColor="@color/brown_dark"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/idSignOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_bg"
+            android:drawableLeft="@drawable/ic_baseline_power_settings_new_24"
             android:drawablePadding="3dp"
             android:padding="5dp"
-            android:drawableLeft="@drawable/ic_log_out"
             android:text="Sign out"
-            android:textColor="@color/black"
-            android:background="@drawable/background_drawable"
-            android:layout_gravity="end"
-            android:layout_weight="1"
+            android:textColor="@color/white"
             android:textSize="12sp" />
     </LinearLayout>
 
