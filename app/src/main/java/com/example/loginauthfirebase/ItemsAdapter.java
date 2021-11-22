@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +21,12 @@ import com.facebook.CallbackManager;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -117,8 +120,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
                 public void onClick(View view) {
                     Model model = new Model(item.mImageUrl, item.mIso, item.mF, item.mMm, item.mSpeed, item.mDate); //lay 6 cai thong tin tuong ung nhet vao, class Model tren git
                     String userID = mUser.getUid();
-                    CollectionReference favIMGRef=mStore.collection("users").document(userID).collection("favIMG");
+                    CollectionReference favIMGRef = mStore.collection("users").document(userID).collection("favIMG");
                     favIMGRef.add(model);
+                    Toast.makeText((Activity)context, "Image added to your Profile", Toast.LENGTH_SHORT).show();
                 }
             });
             callbackManager = CallbackManager.Factory.create();
@@ -139,11 +143,15 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         }
     }
 
+
+
     private List<Item> mItems;
     private Context context;
     private FirebaseFirestore mStore;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
+
+
 
     public ItemsAdapter(List<Item> items, Context context, FirebaseUser user, FirebaseAuth auth, FirebaseFirestore store) {
         mItems = items;
