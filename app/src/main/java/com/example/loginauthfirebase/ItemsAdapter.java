@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.CallbackManager;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
@@ -78,6 +79,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         public ImageView imageView;
         public TextView infoText;
         public Bitmap bitmap;
+        CallbackManager callbackManager;
+        ShareDialog shareDialog;
 
         public MarkerItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -118,12 +121,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
                     favIMGRef.add(model);
                 }
             });
+            callbackManager = CallbackManager.Factory.create();
             ShareDialog shareDialog = new ShareDialog((Activity) context);
             shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
-                            .setContentUrl(Uri.parse("https://firebasestorage.googleapis.com/v0/b/login-auth-firebase-40e1b.appspot.com/o/1637418199115.jpg?alt=media&token=a63170b7-7579-43bb-a39b-cb9d31188ad2"))
+                            .setContentUrl(Uri.parse(item.mImageUrl))
                             .setShareHashtag(new ShareHashtag.Builder()
                                     .setHashtag("#Aesthetic").build())
                             .build();//Cai link dang set cung, thay bang URL hinh` nao do vao
