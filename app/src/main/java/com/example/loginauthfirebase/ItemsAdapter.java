@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -83,7 +84,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         public TextView infoText;
         public Bitmap bitmap;
         CallbackManager callbackManager;
-        ShareDialog shareDialog;
+
 
         public MarkerItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -118,11 +119,35 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Model model = new Model(item.mImageUrl, item.mIso, item.mF, item.mMm, item.mSpeed, item.mDate); //lay 6 cai thong tin tuong ung nhet vao, class Model tren git
                     String userID = mUser.getUid();
+
+                    CollectionReference checkRef =mStore.collection("users").document(userID).collection("favIMG");
+                    checkRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            boolean isExisting = false;
+                            for (DocumentSnapshot ds : queryDocumentSnapshots) {
+                                String eURL;
+                                eURL=ds.getString("imageUrl");
+
+                                if (eURL.equals(item.mImageUrl))
+                                    isExisting=true;
+                            }
+                            if (!isExisting) {
+                                Model model = new Model(item.mImageUrl, item.mIso, item.mF, item.mMm, item.mSpeed, item.mDate);
+                                checkRef.add(model);
+                                Toast.makeText((Activity)context, "Image added to your Profile", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText((Activity)context, "You've already liked this Image", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                    /*Model model = new Model(item.mImageUrl, item.mIso, item.mF, item.mMm, item.mSpeed, item.mDate);
                     CollectionReference favIMGRef = mStore.collection("users").document(userID).collection("favIMG");
                     favIMGRef.add(model);
-                    Toast.makeText((Activity)context, "Image added to your Profile", Toast.LENGTH_SHORT).show();
+                    Toast.makeText((Activity)context, "Image added to your Profile", Toast.LENGTH_SHORT).show();*/
                 }
             });
             callbackManager = CallbackManager.Factory.create();

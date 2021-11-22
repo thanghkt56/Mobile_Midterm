@@ -137,7 +137,7 @@ public class AddImageActivity extends AppCompatActivity {
 
         if (imageUri == null) {
             Toast.makeText(AddImageActivity.this, "Please select Image", Toast.LENGTH_SHORT).show();
-        } else if (ISO.isEmpty() || f.isEmpty() || MM.isEmpty() || Date.isEmpty()) {
+        } else if (ISO.isEmpty() || f.isEmpty() || MM.isEmpty() || Speed.isEmpty() || Date.isEmpty()) {
             Toast.makeText(AddImageActivity.this, "Please fill all Fields", Toast.LENGTH_SHORT).show();
         } else {
             progressDialog.setMessage("Uploading Image...");
