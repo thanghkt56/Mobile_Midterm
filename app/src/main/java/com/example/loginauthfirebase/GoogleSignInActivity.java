@@ -91,7 +91,7 @@ public class GoogleSignInActivity extends MainActivity {
                             // Sign in success, update UI with the signed-in user's information
                             progressDialog.dismiss();
 
-
+                            mUser= mAuth.getCurrentUser();
                             userID = mUser.getUid();
                             DocumentReference documentReference=mStore.collection("users").document(userID);
                             mStore.collection("users");

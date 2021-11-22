@@ -79,7 +79,7 @@ public class FacebookAuthActivity extends MainActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-
+                            mUser= mAuth.getCurrentUser();
                             userID = mUser.getUid();
                             DocumentReference documentReference=mStore.collection("users").document(userID);
                             mStore.collection("users");
